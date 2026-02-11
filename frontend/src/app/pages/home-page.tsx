@@ -5,6 +5,8 @@ import { useApp } from '@/app/context/app-context';
 import { products } from '@/app/data/products';
 import bottle from '@/assets/bottle.png';
 import { ProductImage3D } from '@/app/components/product-image-3d';
+import { HomeProductShowcase } from '@/app/components/home-product-showcase';
+import { TopCollection } from '@/app/components/top-collection';
 
 export function HomePage() {
   const { setCurrentPage, setSelectedProduct, addToCart } = useApp();
@@ -192,6 +194,28 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Featured Products marquee headline */}
+      <div className="bg-black">
+        <div className="mx-auto max-w-6xl px-4 lg:px-8">
+          <div className="group relative flex h-9 sm:h-10 items-center overflow-hidden">
+            <div className="flex w-max items-center gap-8 pr-6 animate-announcement-marquee group-hover:[animation-play-state:paused]">
+              {Array.from({ length: 2 }).map((_, idx) => (
+                <span
+                  // Duplicate content twice for seamless loop
+                  key={idx}
+                  className="whitespace-nowrap text-xs sm:text-sm font-medium text-white"
+                >
+                  100% Purity Guarantee • Agar aap mutmain nahi, toh paisa wapis • Traditional Hand-Churned Desi Ghee • Fast Delivery • Cash on Delivery
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Top collection section */}
+      <TopCollection />
+
       {/* Featured Products Section */}
       <section className="py-20 bg-[#FAF7F2]">
         <div className="container mx-auto px-4 lg:px-8">
@@ -203,232 +227,11 @@ export function HomePage() {
               Choose from our range of pure desi ghee
             </p>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <div key={product.id} className="group bg-white rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-[#E6B65C]/20">
-                <div 
-                  className="relative overflow-hidden bg-[#FAF7F2] p-6 cursor-pointer"
-                  onClick={() => handleViewProduct(product)}
-                >
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                  {product.tag && (
-                    <div className="absolute top-4 left-4 px-3 py-1 bg-[#E6B65C] text-white text-xs rounded-full" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      {product.tag}
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-6 space-y-4">
-                  <div>
-                    <h3 className="text-xl text-[#6B4A1E] mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      {product.name}
-                    </h3>
-                    <p className="text-sm text-[#6B4A1E]/60" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      Weight: {product.weight}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-2">
-                    <p className="text-2xl text-[#5F6B3C]" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      PKR {product.price}
-                    </p>
-                  </div>
-
-                  <button 
-                    onClick={() => handleAddToCart(product)}
-                    className="w-full py-3 bg-[#5F6B3C] text-white rounded-full hover:bg-[#6B4A1E] transition-colors" 
-                    style={{ fontFamily: 'Poppins, sans-serif' }}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Farm Image */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1664961118874-32d918343e7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB2aWxsYWdlJTIwZmFybSUyMG9yZ2FuaWN8ZW58MXx8fHwxNzY5ODUzNTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080" 
-                alt="Our Farm"
-                className="w-full h-[500px] object-cover"
-              />
-            </div>
-
-            {/* Right: Bullet Points */}
-            <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl text-[#6B4A1E] mb-8" style={{ fontFamily: 'Playfair Display, serif' }}>
-                Why Choose Us?
-              </h2>
-
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-[#E6B65C]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-6 h-6 text-[#5F6B3C]" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl text-[#6B4A1E] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      Farm-Fresh Milk
-                    </h3>
-                    <p className="text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      From grass-fed cows on our organic farms
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-[#E6B65C]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Leaf className="w-6 h-6 text-[#5F6B3C]" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl text-[#6B4A1E] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      Hand-Churned Ghee
-                    </h3>
-                    <p className="text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      Traditional bilona method for authentic taste
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-[#E6B65C]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <CheckCircle className="w-6 h-6 text-[#5F6B3C]" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl text-[#6B4A1E] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      No Chemicals
-                    </h3>
-                    <p className="text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      100% pure with no additives or preservatives
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-[#E6B65C]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Award className="w-6 h-6 text-[#5F6B3C]" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl text-[#6B4A1E] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                      Traditional Process
-                    </h3>
-                    <p className="text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      Methods passed down through generations
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-20 bg-gradient-to-br from-[#FAF7F2] via-white to-[#FAF7F2]">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl text-[#6B4A1E] mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Our Traditional Process
-            </h2>
-            <p className="text-lg text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              From farm to jar, every step is done with care
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {([
-              { step: '01', icon: '🥛', title: 'Fresh Milk', desc: 'Collected from grass-fed cows' },
-              { step: '02', icon: '🧈', title: 'Butter Making', desc: 'Cultured and fermented naturally' },
-              { step: '03', icon: '⚙️', title: 'Hand Churning', desc: 'Traditional bilona method' },
-              { step: '04', icon: '✨', title: 'Pure Ghee', desc: 'Filtered and packed with care' }
-            ]).map((item, index) => (
-              <div key={index} className="relative text-center">
-                <div className="bg-white p-8 rounded-3xl shadow-lg border border-[#E6B65C]/20">
-                  <div className="text-5xl mb-4">{item.icon}</div>
-                  <div className="text-3xl text-[#E6B65C] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                    {item.step}
-                  </div>
-                  <h3 className="text-xl text-[#6B4A1E] mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-[#6B4A1E]/60" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                    {item.desc}
-                  </p>
-                </div>
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-3xl text-[#E6B65C]">
-                    →
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Customer Reviews */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl text-[#6B4A1E] mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Customer Reviews
-            </h2>
-            <p className="text-lg text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Trusted by thousands of happy families
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div 
-                key={index}
-                className="bg-[#FAF7F2] p-8 rounded-3xl shadow-lg border border-[#E6B65C]/20 relative"
-              >
-                <div className="absolute -top-4 left-8 w-12 h-12 bg-[#E6B65C] rounded-full flex items-center justify-center">
-                  <Quote className="w-6 h-6 text-white" />
-                </div>
-
-                <div className="flex gap-1 mb-4 mt-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-[#E6B65C] text-[#E6B65C]" />
-                  ))}
-                </div>
-
-                <p className="text-[#6B4A1E]/80 mb-6 leading-relaxed" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  "{testimonial.text}"
-                </p>
-
-                <div className="flex items-center gap-4 pt-4 border-t border-[#E6B65C]/20">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="text-[#6B4A1E]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      {testimonial.name}
-                    </p>
-                    <p className="text-sm text-[#6B4A1E]/60" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      {testimonial.location}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Interactive product showcase section (detail-style) */}
+      <HomeProductShowcase />
     </div>
   );
 }

@@ -9,13 +9,13 @@ const MESSAGE =
 function AnnouncementItem() {
   return (
     <div className="flex items-center gap-3">
-      <span className="whitespace-nowrap text-xs sm:text-sm font-medium text-black">
+      <span className="whitespace-nowrap text-xs sm:text-sm font-medium text-white">
         {MESSAGE}
       </span>
       {/* Visual divider dot between repeated items */}
       <span
         aria-hidden="true"
-        className="inline-block h-1 w-1 rounded-full bg-black/70"
+        className="inline-block h-1 w-1 rounded-full bg-white/80"
       />
     </div>
   );
@@ -23,14 +23,7 @@ function AnnouncementItem() {
 
 export function AnnouncementBar() {
   return (
-    <div
-      className="w-full border-y border-black/5"
-      style={{
-        backgroundColor: '#7A6F3A',
-        backgroundImage:
-          'linear-gradient(to right, #6B6F3A, #7A6F3A, #7A5A2A)',
-      }}
-    >
+    <div className="w-full border-y border-black/20 bg-black">
       {/* Height ~44px on desktop, slightly smaller on mobile */}
       <div className="group relative mx-auto flex h-10 sm:h-11 max-w-full items-center overflow-hidden">
         {/* The inner track holds two identical sequences of text.
