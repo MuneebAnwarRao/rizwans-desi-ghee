@@ -12,6 +12,7 @@ import { CartPage } from './pages/cart-page';
 import { CheckoutPage } from './pages/checkout-page';
 import { AboutPage } from './pages/about-page';
 import { ContactPage } from './pages/contact-page';
+import { FavouritesPage } from './pages/favourites-page';
 
 function AppContent() {
   const { currentPage } = useApp();
@@ -32,6 +33,8 @@ function AppContent() {
         return <AboutPage />;
       case 'contact':
         return <ContactPage />;
+      case 'favourites':
+        return <FavouritesPage />;
       default:
         return <HomePage />;
     }
@@ -40,8 +43,8 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[#FAF7F2]" style={{ fontFamily: 'Poppins, sans-serif' }}>
       <Header />
-      {/* Continuous sliding announcement bar directly below navbar */}
-      <AnnouncementBar />
+      {/* Continuous sliding announcement bar directly below navbar (hide on home to not overlap hero) */}
+      {currentPage !== 'home' && <AnnouncementBar />}
       <main>
         {renderPage()}
       </main>

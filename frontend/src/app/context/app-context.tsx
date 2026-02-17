@@ -45,6 +45,11 @@ type AppContextType = {
   selectedProduct: Product | null;
   setSelectedProduct: (product: Product | null) => void;
 
+  favourites: Product[];
+  addToFavourites: (product: Product) => void;
+  removeFromFavourites: (productId: number) => void;
+  isFavourite: (productId: number) => boolean;
+
   // Auth (local placeholder, easy to replace with backend later)
   user: AuthUser | null;
   isAuthenticated: boolean;
@@ -73,10 +78,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [currentPage, setCurrentPage] = useState('home');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [favourites, setFavourites] = useState<Product[]>([]);
 
   // Auth state
   const [user, setUser] = useState<AuthUser | null>(null);
   const isAuthenticated = !!user;
+
+  const addToFavourites = (product: Product) => {
+    setFavourites((prev) =>
+      prev.some((p) => p.id === product.id) ? prev : [...prev, product]
+    );
+  };
+
+  const removeFromFavourites = (productId: number) => {
+    setFavourites((prev) => prev.filter((p) => p.id !== productId));
+  };
+
+  const isFavourite = (productId: number) =>
+    favourites.some((p) => p.id === productId);
 
   // Load session on mount (keeps user logged in after refresh).
   useEffect(() => {
@@ -199,6 +218,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         updateQuantity,
         selectedProduct,
         setSelectedProduct,
+
+        favourites,
+        addToFavourites,
+        removeFromFavourites,
+        isFavourite,
 
         user,
         isAuthenticated,

@@ -37,14 +37,12 @@ function Badge({ count }: { count: number }) {
 }
 
 export function NavbarIcons({ onNavigate }: Props) {
-  const { cart, isAuthenticated, user, logout } = useApp();
+  const { cart, favourites, isAuthenticated, user, logout } = useApp();
 
   const cartItemCount = useMemo(
     () => cart.reduce((total, item) => total + item.quantity, 0),
     [cart]
   );
-
-  const [wishlistCount, setWishlistCount] = useState(0);
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -207,18 +205,15 @@ export function NavbarIcons({ onNavigate }: Props) {
         onModeChange={setAuthMode}
       />
 
-      {/* Wishlist */}
+      {/* Wishlist / Favourites */}
       <button
         type="button"
-        aria-label="Wishlist"
-        onClick={() => {
-          // UI-only: bump count to show badge dynamics.
-          setWishlistCount((c) => c + 1);
-        }}
+        aria-label="Favourites"
+        onClick={() => onNavigate('favourites')}
         className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-neutral-800 transition-transform duration-200 hover:scale-105 hover:text-[#F4B400]"
       >
         <Heart className="h-5 w-5" />
-        <Badge count={wishlistCount} />
+        <Badge count={favourites.length} />
       </button>
 
       {/* Cart */}

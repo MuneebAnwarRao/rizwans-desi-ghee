@@ -7,6 +7,7 @@ import bottle from '@/assets/bottle.png';
 import { ProductImage3D } from '@/app/components/product-image-3d';
 import { HomeProductShowcase } from '@/app/components/home-product-showcase';
 import { TopCollection } from '@/app/components/top-collection';
+import { HeroSlider } from '@/app/components/hero-slider';
 
 export function HomePage() {
   const { setCurrentPage, setSelectedProduct, addToCart } = useApp();
@@ -60,103 +61,8 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
-      {/* Hero Section with single bottle carousel */}
-      <section className="relative bg-[#FAF7F2] pt-10 pb-16 px-4">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          {/* Left: Text */}
-          <div className="space-y-6">
-            <p className="uppercase tracking-[0.2em] text-sm text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Pure • Traditional • Authentic
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-[#6B4A1E]" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Rizwan&apos;s <span className="text-[#E6B65C]">Desi Ghee</span>
-            </h1>
-            <p className="text-lg md:text-xl text-[#5F6B3C] max-w-xl" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Handcrafted bilona ghee with rich aroma and golden color, made from farm-fresh milk in Punjab, Pakistan.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button
-                onClick={handleShopNow}
-                className="bg-[#E6B65C] hover:bg-[#D9A74F] text-[#6B4A1E] px-8 py-3 rounded-full font-semibold shadow-lg transition-transform duration-200 hover:scale-105"
-              >
-                Shop Now
-              </button>
-              <button
-                onClick={handleLearnMore}
-                className="flex items-center gap-2 px-6 py-3 rounded-full border border-[#E6B65C] text-[#6B4A1E] hover:bg-[#E6B65C] hover:text-[#6B4A1E] transition-colors"
-              >
-                Learn More
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right: Bottle carousel (single image, slider-ready) */}
-          <div className="relative">
-            <div className="relative px-4 py-6 md:px-8 md:py-10">
-              <div className="flex items-center justify-between gap-4">
-                {/* Prev */}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setCurrentSlide(
-                      (currentSlide - 1 + bottleImages.length) % bottleImages.length
-                    )
-                  }
-                  className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-[#E6B65C]/60 text-[#6B4A1E] hover:bg-[#FAF7F2] transition-colors"
-                  aria-label="Previous image"
-                >
-                  ‹
-                </button>
-
-                {/* Image area */}
-                <div className="flex-1 flex justify-center">
-                  <div className="max-h-[420px] w-auto flex items-center justify-center">
-                    {/* Premium 3D hover effect for hero bottle (desktop only, motion-safe) */}
-                    <ProductImage3D
-                      src={bottleImages[currentSlide]}
-                      alt="Rizwan's Desi Ghee bottle"
-                      priority
-                      width={400}
-                      height={420}
-                      sizes="(max-width: 768px) 280px, 360px"
-                    />
-                  </div>
-                </div>
-
-                {/* Next */}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setCurrentSlide((currentSlide + 1) % bottleImages.length)
-                  }
-                  className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-[#E6B65C]/60 text-[#6B4A1E] hover:bg-[#FAF7F2] transition-colors"
-                  aria-label="Next image"
-                >
-                  ›
-                </button>
-              </div>
-
-              {/* Dots */}
-              <div className="mt-4 flex justify-center gap-2">
-                {bottleImages.map((_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => setCurrentSlide(index)}
-                    className={`h-2 w-2 rounded-full transition-colors ${
-                      currentSlide === index
-                        ? 'bg-[#E6B65C]'
-                        : 'bg-[#FAF7F2] border border-[#E6B65C]/60'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Premium cinematic hero slider */}
+      <HeroSlider />
 
       {/* Trust Badges Row */}
       <section className="bg-white py-12 border-y border-[#E6B65C]/20">
@@ -194,18 +100,17 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Featured Products marquee headline */}
+      {/* WhatsApp order marquee above featured products */}
       <div className="bg-black">
         <div className="mx-auto max-w-6xl px-4 lg:px-8">
           <div className="group relative flex h-9 sm:h-10 items-center overflow-hidden">
-            <div className="flex w-max items-center gap-8 pr-6 animate-announcement-marquee group-hover:[animation-play-state:paused]">
+            <div className="flex w-max items-center gap-10 pr-6 animate-announcement-marquee group-hover:[animation-play-state:paused]">
               {Array.from({ length: 2 }).map((_, idx) => (
                 <span
-                  // Duplicate content twice for seamless loop
                   key={idx}
-                  className="whitespace-nowrap text-xs sm:text-sm font-medium text-white"
+                  className="whitespace-nowrap text-xs sm:text-sm font-semibold text-white"
                 >
-                  100% Purity Guarantee • Agar aap mutmain nahi, toh paisa wapis • Traditional Hand-Churned Desi Ghee • Fast Delivery • Cash on Delivery
+                  Order on WhatsApp +92-3287318269 • Order on WhatsApp +92-3287318269 • Order on WhatsApp +92-3287318269
                 </span>
               ))}
             </div>
@@ -215,6 +120,24 @@ export function HomePage() {
 
       {/* Top collection section */}
       <TopCollection />
+
+      {/* Free Delivery headline above Featured Products */}
+      <div className="bg-black">
+        <div className="mx-auto max-w-6xl px-4 lg:px-8">
+          <div className="group relative flex h-9 sm:h-10 items-center overflow-hidden">
+            <div className="flex w-max items-center gap-10 pr-6 animate-announcement-marquee group-hover:[animation-play-state:paused]">
+              {Array.from({ length: 2 }).map((_, idx) => (
+                <span
+                  key={idx}
+                  className="whitespace-nowrap text-xs sm:text-sm font-semibold text-white"
+                >
+                  Free Delivery all over the pakistan - Fast delivery • Free Delivery all over the pakistan - Fast delivery
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Featured Products Section */}
       <section className="py-20 bg-[#FAF7F2]">

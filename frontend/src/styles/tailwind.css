@@ -73,8 +73,7 @@
   }
 }
 
-/* Custom animation utilities for the announcement bar.
-   We define keyframes + a utility class that Tailwind can use. */
+/* Custom animation utilities for marquee-style rows and announcement bars. */
 @layer utilities {
   @keyframes announcement-marquee {
     0% {
@@ -89,6 +88,20 @@
   .animate-announcement-marquee {
     /* Slow, linear, infinite marquee-style scroll */
     animation: announcement-marquee 28s linear infinite;
+  }
+
+  /* Infinite horizontal scroll for Top Collection product row */
+  @keyframes top-collection-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-top-collection-marquee {
+    animation: top-collection-marquee 32s linear infinite;
   }
 }
 

@@ -1,58 +1,39 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Heart, Share2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, Share2 } from 'lucide-react';
 import { useApp } from '@/app/context/app-context';
 import { products } from '@/app/data/products';
+import { ProductImageSlider } from '@/app/components/product-image-slider';
 
 const WEIGHT_OPTIONS = [
-  { id: '500gm', label: '500GM', factor: 1 },
-  { id: '1kg', label: '1KG', factor: 2 },
-  { id: '2kg', label: '2KG', factor: 4 },
-  { id: '3kg', label: '3KG', factor: 6 },
-  { id: '4kg', label: '4KG', factor: 8 },
-  { id: '5kg', label: '5KG', factor: 10 },
+  { id: '500gm', label: '500GM', price: 1500 },
+  { id: '1kg', label: '1KG', price: 3000 },
+  { id: '2kg', label: '2KG', price: 6000 },
 ] as const;
 
 export function HomeProductShowcase() {
-  const { addToCart } = useApp();
+  const { addToCart, addToFavourites, removeFromFavourites, isFavourite } = useApp();
 
   // Use the first product from your catalog for this hero showcase.
   const product = products[0];
 
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedWeightId, setSelectedWeightId] = useState<(typeof WEIGHT_OPTIONS)[number]['id']>(
     '500gm'
   );
   const [quantity, setQuantity] = useState(1);
-  const [inWishlist, setInWishlist] = useState(false);
 
-  // Simple slider images - reuse same image; logic supports multiple.
-  const sliderImages = useMemo(() => [product.image, product.image, product.image], [product]);
-
+  const inWishlist = isFavourite(product.id);
   const activeWeight = WEIGHT_OPTIONS.find((w) => w.id === selectedWeightId) ?? WEIGHT_OPTIONS[0];
 
   const currentPrice = useMemo(() => {
-    // Base price from product data is for 500g; scale by factor.
-    return product.price * activeWeight.factor;
-  }, [activeWeight.factor, product.price]);
+    return activeWeight.price;
+  }, [activeWeight.price]);
 
   const oldPrice = useMemo(
     () => Math.round(currentPrice * 1.15),
     [currentPrice]
   );
-
-  const handlePrevImage = () => {
-    setActiveImageIndex((prev) =>
-      prev === 0 ? sliderImages.length - 1 : prev - 1
-    );
-  };
-
-  const handleNextImage = () => {
-    setActiveImageIndex((prev) =>
-      prev === sliderImages.length - 1 ? 0 : prev + 1
-    );
-  };
 
   const handleAddToCart = () => {
     const weightLabel = activeWeight.label;
@@ -60,7 +41,8 @@ export function HomeProductShowcase() {
   };
 
   const handleToggleWishlist = () => {
-    setInWishlist((prev) => !prev);
+    if (inWishlist) removeFromFavourites(product.id);
+    else addToFavourites(product);
   };
 
   const handleShare = async () => {
@@ -135,33 +117,11 @@ export function HomeProductShowcase() {
               </div>
 
               {/* Image with arrows */}
-              <div className="group relative flex items-center justify-center">
-                <button
-                  type="button"
-                  onClick={handlePrevImage}
-                  aria-label="Previous product image"
-                  className="absolute left-0 z-10 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-[#6B4A1E] shadow-sm transition hover:bg-[#FAF7F2]"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-
-                <div className="relative flex h-[360px] w-full items-center justify-center overflow-hidden">
-                  <img
-                    src={sliderImages[activeImageIndex]}
-                    alt={product.name}
-                    className="max-h-full w-auto max-w-full transform object-contain transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleNextImage}
-                  aria-label="Next product image"
-                  className="absolute right-0 z-10 flex h-10 w-10 translate-x-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-[#6B4A1E] shadow-sm transition hover:bg-[#FAF7F2]"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
+              <ProductImageSlider
+                selectedSizeId={selectedWeightId}
+                onChangeSelectedSize={setSelectedWeightId}
+                productName={product.name}
+              />
             </div>
           </div>
 

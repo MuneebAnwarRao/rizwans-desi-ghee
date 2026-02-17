@@ -1,0 +1,206 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useApp } from '@/app/context/app-context';
+import hero1 from '@/assets/hero1.jpeg';
+import hero2 from '@/assets/hero2.jpeg';
+import hero3 from '@/assets/hero3.jpeg';
+
+type Slide = {
+  id: number;
+  image: string;
+  heading: string;
+  subheading: string;
+};
+
+const slides: Slide[] = [
+  {
+    id: 1,
+    image: hero1.src,
+    heading: "Rizwan's Pure Desi Ghee",
+    subheading: '100% Natural & Traditional',
+  },
+  {
+    id: 2,
+    image: hero2.src,
+    heading: 'Rizwan’s Pure Desi Ghee',
+    subheading: 'Taste Tradition. Feel the Purity.',
+  },
+  {
+    id: 3,
+    image: hero3.src,
+    heading: "Rizwan's Pure Desi Ghee",
+    subheading: 'Premium Quality Ghee',
+  },
+];
+
+export function HeroSlider() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [parallax, setParallax] = useState({
+    bgX: 0,
+    bgY: 0,
+    fgX: 0,
+    fgY: 0,
+  });
+  const { setCurrentPage } = useApp();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 768px)');
+    const handleChange = () => setIsMobile(mq.matches);
+    handleChange();
+    mq.addEventListener('change', handleChange);
+    return () => mq.removeEventListener('change', handleChange);
+  }, []);
+
+  // Auto-slide every 3 seconds
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const handleDotClick = (index: number) => {
+    setActiveIndex(index);
+  };
+
+  const handleShopNow = () => {
+    setCurrentPage('shop');
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handleMouseMove: React.MouseEventHandler<HTMLElement> = (event) => {
+    if (isMobile) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = (event.clientX - centerX) / (rect.width / 2);
+    const dy = (event.clientY - centerY) / (rect.height / 2);
+
+    const clamp = (value: number, min: number, max: number) =>
+      Math.min(max, Math.max(min, value));
+
+    const clampedX = clamp(dx, -1, 1);
+    const clampedY = clamp(dy, -1, 1);
+
+    // Keep parallax subtle so more of the image is visible
+    const maxBgShift = 4;
+    const maxFgShift = 16;
+
+    setParallax({
+      bgX: -clampedX * maxBgShift,
+      bgY: -clampedY * maxBgShift,
+      fgX: clampedX * maxFgShift,
+      fgY: clampedY * maxFgShift,
+    });
+  };
+
+  const resetParallax = () => {
+    setParallax({ bgX: 0, bgY: 0, fgX: 0, fgY: 0 });
+  };
+
+  return (
+    <section
+      className="hero-slider bg-black text-white"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => {
+        setIsPaused(false);
+        resetParallax();
+      }}
+      onMouseMove={handleMouseMove}
+    >
+      <div
+        className="hero-slider__track"
+        style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+      >
+        {slides.map((slide, index) => {
+          const isActive = index === activeIndex;
+          const isFirstSlide = index === 0;
+          const isLastSlide = index === slides.length - 1;
+          // Lower zoom so more of the hero image is visible
+          const scale = isActive && !isPaused ? 1.03 : 1;
+          const bgTransform =
+            isActive && !isMobile
+              ? `translate3d(${parallax.bgX}px, ${parallax.bgY}px, 0) scale(${scale})`
+              : `translate3d(0, 0, 0) scale(${scale})`;
+          const fgTransform =
+            isActive && !isMobile
+              ? `translate3d(${parallax.fgX}px, ${parallax.fgY}px, 0)`
+              : 'translate3d(0, 0, 0)';
+
+          return (
+            <article
+              key={slide.id}
+              className={`hero-slide ${isActive ? 'hero-slide--active' : ''}`}
+            >
+              <div
+                className="hero-slide__bg"
+                style={{
+                  backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.1)), url(${slide.image})`,
+                  transform: bgTransform,
+                  filter: isActive ? 'brightness(1.05)' : 'brightness(0.95)',
+                }}
+              />
+
+              <div className="hero-slide__content-wrapper">
+                <div
+                  className="hero-slide__content w-full flex flex-col items-start justify-start px-6 md:px-10 pt-6 md:pt-10"
+                  style={{ transform: fgTransform }}
+                >
+                  {isFirstSlide && (
+                    <div className="flex flex-col items-start space-y-4 max-w-md text-left">
+                      <h1 className="hero-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight text-white">
+                        {slide.heading}
+                      </h1>
+                      <p className="hero-subheading text-sm sm:text-base md:text-lg text-white/85">
+                        {slide.subheading}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={handleShopNow}
+                        className="hero-cta inline-flex items-center justify-center rounded-full bg-[#5F6B3C] px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-[0_16px_40px_rgba(95,107,60,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E6B65C] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                      >
+                        Shop Now
+                      </button>
+                    </div>
+                  )}
+                  {isLastSlide && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <p className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-center">
+                        Believe in Quality
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <div className="hero-dots">
+        {slides.map((_, index) => {
+          const isActive = index === activeIndex;
+          return (
+            <button
+              key={index}
+              type="button"
+              onClick={() => handleDotClick(index)}
+              className={`hero-dots__dot ${
+                isActive ? 'hero-dots__dot--active' : ''
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+

@@ -5,27 +5,27 @@ export function Footer() {
   const { setCurrentPage } = useApp();
 
   return (
-    <footer className="bg-gradient-to-r from-amber-900 to-amber-800 text-white py-12 px-4">
+    <footer className="bg-[#5F6B3C] text-white py-12 px-4">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div>
           <h3 className="text-2xl font-bold mb-4">Rizwan&apos;s Desi Ghee</h3>
-          <p className="text-amber-100 text-sm">Pure, Traditional, Delicious - Handcrafted in Pakistan</p>
+          <p className="text-white/90 text-sm">Pure, Traditional, Delicious - Handcrafted in Pakistan</p>
         </div>
         <div>
           <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-          <ul className="text-amber-100 text-sm space-y-2">
+          <ul className="text-white/90 text-sm space-y-2">
             <li>
-              <button onClick={() => setCurrentPage("home")} className="hover:text-amber-200 transition">
+              <button onClick={() => setCurrentPage("home")} className="hover:text-white transition">
                 Home
               </button>
             </li>
             <li>
-              <button onClick={() => setCurrentPage("shop")} className="hover:text-amber-200 transition">
+              <button onClick={() => setCurrentPage("shop")} className="hover:text-white transition">
                 Shop
               </button>
             </li>
             <li>
-              <button onClick={() => setCurrentPage("about")} className="hover:text-amber-200 transition">
+              <button onClick={() => setCurrentPage("about")} className="hover:text-white transition">
                 About
               </button>
             </li>
@@ -33,33 +33,33 @@ export function Footer() {
         </div>
         <div>
           <h3 className="font-bold text-lg mb-4">Contact</h3>
-          <div className="text-amber-100 text-sm space-y-2">
+          <div className="text-white/90 text-sm space-y-2">
             <div className="flex items-center gap-2">
               <Mail size={16} />
               <span>info@rizwansghee.com</span>
             </div>
             <div className="flex items-center gap-2">
               <Phone size={16} />
-              <span>+92-300-1234567</span>
+              <span>+92-3287318269</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin size={16} />
-              <span>Lahore, Pakistan</span>
+              <span>Lodhran, Pakistan</span>
             </div>
           </div>
         </div>
         <div>
           <h3 className="font-bold text-lg mb-4">Follow Us</h3>
           <div className="flex gap-4 mb-4">
-            <Facebook className="cursor-pointer hover:text-amber-200 transition" size={24} />
-            <Instagram className="cursor-pointer hover:text-amber-200 transition" size={24} />
-            <Twitter className="cursor-pointer hover:text-amber-200 transition" size={24} />
-            <Youtube className="cursor-pointer hover:text-amber-200 transition" size={24} />
+            <Facebook className="cursor-pointer hover:text-white transition" size={24} />
+            <Instagram className="cursor-pointer hover:text-white transition" size={24} />
+            <Twitter className="cursor-pointer hover:text-white transition" size={24} />
+            <Youtube className="cursor-pointer hover:text-white transition" size={24} />
           </div>
         </div>
       </div>
-      <div className="border-t border-amber-700 pt-8 text-center text-amber-100 text-sm">
-        <p>&copy; 2026 Premium Desi Ghee. All rights reserved.</p>
+      <div className="border-t border-white/20 pt-8 text-center text-white/90 text-sm">
+        <p>&copy; 2026 Rizwan&apos;s Desi Ghee. All rights reserved.</p>
       </div>
     </footer>
   );

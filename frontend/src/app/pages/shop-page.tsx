@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { ShoppingCart, Star, SlidersHorizontal } from 'lucide-react';
+import { Heart, ShoppingCart, Star, SlidersHorizontal } from 'lucide-react';
 import { useApp } from '@/app/context/app-context';
 import { products } from '@/app/data/products';
+import bottle500gm from '@/assets/500gm.jpeg';
+import bottle1kg from '@/assets/1kg.jpeg';
+import bottle2kg from '@/assets/2kg.jpeg';
 
 export function ShopPage() {
-  const { setSelectedProduct, setCurrentPage, addToCart } = useApp();
+  const { setSelectedProduct, setCurrentPage, addToCart, addToFavourites, removeFromFavourites, isFavourite } = useApp();
   const [selectedWeight, setSelectedWeight] = useState<{ [key: number]: string }>({});
   const [selectedFilters, setSelectedFilters] = useState({
     weights: [] as string[],
@@ -13,7 +16,29 @@ export function ShopPage() {
   });
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  const weights = ['500g', '1kg', '2kg', '5kg'];
+  const weights = ['500g', '1kg', '2kg'];
+
+  // Helper function to get the correct bottle image based on weight
+  const getImageForWeight = (weight: string): string => {
+    const normalizedWeight = weight.toLowerCase().trim();
+    if (normalizedWeight === '500g' || normalizedWeight === '500gm') {
+      return bottle500gm.src;
+    } else if (normalizedWeight === '1kg') {
+      return bottle1kg.src;
+    } else if (normalizedWeight === '2kg') {
+      return bottle2kg.src;
+    }
+    return bottle500gm.src;
+  };
+
+  // Price by weight: 500g=1500, 1kg=3000, 2kg=6000
+  const getPriceForWeight = (weight: string): number => {
+    const normalizedWeight = weight.toLowerCase().trim();
+    if (normalizedWeight === '500g' || normalizedWeight === '500gm') return 1500;
+    if (normalizedWeight === '1kg') return 3000;
+    if (normalizedWeight === '2kg') return 6000;
+    return 1500;
+  };
   
   const handleViewProduct = (product: typeof products[0]) => {
     setSelectedProduct(product);
@@ -212,16 +237,10 @@ export function ShopPage() {
               </div>
             </aside>
 
-            {/* Main Products Grid */}
+            {/* Main Products Grid - 3 products in one row */}
             <div className="lg:col-span-3">
-              <div className="mb-6 flex justify-between items-center">
-                <p className="text-[#6B4A1E]/70" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                  Showing {filteredProducts.length} products
-                </p>
-              </div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {filteredProducts.slice(0, 3).map((product) => (
                   <div key={product.id} className="group bg-white rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-[#E6B65C]/20">
                     {/* Product Image */}
                     <div 
@@ -229,7 +248,7 @@ export function ShopPage() {
                       onClick={() => handleViewProduct(product)}
                     >
                       <img 
-                        src={product.image} 
+                        src={getImageForWeight(selectedWeight[product.id] || product.weight)} 
                         alt={product.name}
                         className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300"
                       />
@@ -238,6 +257,20 @@ export function ShopPage() {
                           {product.tag}
                         </div>
                       )}
+                      <button
+                        type="button"
+                        aria-label={isFavourite(product.id) ? 'Remove from favourites' : 'Add to favourites'}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isFavourite(product.id)) removeFromFavourites(product.id);
+                          else addToFavourites(product);
+                        }}
+                        className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 transition-colors"
+                      >
+                        <Heart
+                          className={`h-4 w-4 ${isFavourite(product.id) ? 'fill-[#E6B65C] text-[#E6B65C]' : ''}`}
+                        />
+                      </button>
                     </div>
 
                     {/* Product Info */}
@@ -272,10 +305,10 @@ export function ShopPage() {
                         </span>
                       </div>
 
-                      {/* Price */}
+                      {/* Price - by selected weight */}
                       <div>
                         <p className="text-2xl text-[#5F6B3C]" style={{ fontFamily: 'Playfair Display, serif' }}>
-                          PKR {product.price}
+                          PKR {getPriceForWeight(selectedWeight[product.id] || product.weight)}
                         </p>
                       </div>
 
