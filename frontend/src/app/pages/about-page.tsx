@@ -1,24 +1,47 @@
 import { Heart, Award, Users, Leaf, TrendingUp, Sprout } from 'lucide-react';
 
+// Video is served from public folder – place your file at frontend/public/cow-grazing.mp4
+const COW_VIDEO_SRC = '/cow-grazing.mp4';
+
 export function AboutPage() {
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
-      {/* Hero Banner */}
-      <section className="relative h-[500px] overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1664961118874-32d918343e7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB2aWxsYWdlJTIwZmFybSUyMG9yZ2FuaWN8ZW58MXx8fHwxNzY5ODUzNTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080" 
-          alt="Our Farm"
-          className="w-full h-full object-cover"
+      {/* Hero Banner – full-width background video */}
+      <section className="relative h-screen min-h-[100vh] w-full overflow-hidden">
+        {/* Background video – full cover, no controls, autoplay, loop, muted, playsInline */}
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden
+          src={COW_VIDEO_SRC}
+        >
+          <source src={COW_VIDEO_SRC} type="video/mp4" />
+        </video>
+        {/* Dark + golden gradient overlay for text readability and desi ghee theme */}
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(43,52,30,0.75) 40%, rgba(107,74,30,0.7) 70%, rgba(0,0,0,0.6) 100%)',
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#6B4A1E]/90 to-[#5F6B3C]/80 flex items-center justify-center">
-          <div className="text-center text-white px-4">
-            <h1 className="text-5xl md:text-6xl mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Our Story
-            </h1>
-            <p className="text-xl md:text-2xl max-w-2xl mx-auto" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              A Legacy of Purity, Tradition & Trust
-            </p>
-          </div>
+        {/* Centered content above video */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4">
+          <h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white text-center mb-4"
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            Our Story
+          </h1>
+          <p
+            className="text-lg sm:text-xl md:text-2xl text-white/95 text-center max-w-2xl mx-auto"
+            style={{ fontFamily: 'Poppins, sans-serif' }}
+          >
+            A Legacy of Purity, Tradition & Trust
+          </p>
         </div>
       </section>
 

@@ -214,10 +214,7 @@ export function ContactPage() {
                       Visit Our Farm
                     </h3>
                     <p className="text-[#6B4A1E]/70 leading-relaxed" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      123 Farm Road, Village near Lahore<br />
-                      Lahore, Punjab<br />
-                      ZIP: 54000, Pakistan<br />
-                      Adda bangla jalalpur road lodhran
+                      Adda bangla jalalpur road lodhran, Pakistan
                     </p>
                   </div>
                 </div>

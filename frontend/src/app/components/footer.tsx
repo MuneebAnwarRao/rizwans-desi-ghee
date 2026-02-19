@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, MessageCircle, Music2 } from "lucide-react";
 import { useApp } from "@/app/context/app-context";
 
 export function Footer() {
@@ -51,10 +51,30 @@ export function Footer() {
         <div>
           <h3 className="font-bold text-lg mb-4">Follow Us</h3>
           <div className="flex gap-4 mb-4">
-            <Facebook className="cursor-pointer hover:text-white transition" size={24} />
-            <Instagram className="cursor-pointer hover:text-white transition" size={24} />
-            <Twitter className="cursor-pointer hover:text-white transition" size={24} />
-            <Youtube className="cursor-pointer hover:text-white transition" size={24} />
+            <a
+              href="https://www.facebook.com/share/1Kbks71ywD/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Visit our Facebook page"
+            >
+              <Facebook className="cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-white font-bold" size={24} />
+            </a>
+            <a
+              href="https://www.instagram.com/dasiigee?utm_source=qr&igsh=MWc0Ymt5dHZlajI3eg=="
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Visit our Instagram page"
+            >
+              <Instagram className="cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-white font-bold" size={24} />
+            </a>
+            <a
+              href="https://www.tiktok.com/@dasii.gee?_r=1&_t=ZS-941NbOW1pMm"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Visit our TikTok page"
+            >
+              <Music2 className="cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-white font-bold" size={24} />
+            </a>
           </div>
         </div>
       </div>

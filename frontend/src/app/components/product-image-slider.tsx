@@ -8,7 +8,7 @@ type SizeImageVariant = {
 };
 
 const DEFAULT_VARIANTS: SizeImageVariant[] = [
-  { id: '500gm', label: '500GM', image: bottle2.src },
+  { id: '500g', label: '500g', image: bottle2.src },
   { id: '1kg', label: '1KG', image: bottle2.src },
   { id: '2kg', label: '2KG', image: bottle2.src },
 ];

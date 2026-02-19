@@ -7,7 +7,7 @@ import { products } from '@/app/data/products';
 import { ProductImageSlider } from '@/app/components/product-image-slider';
 
 const WEIGHT_OPTIONS = [
-  { id: '500gm', label: '500GM', price: 1500 },
+  { id: '500g', label: '500g', price: 1500 },
   { id: '1kg', label: '1KG', price: 3000 },
   { id: '2kg', label: '2KG', price: 6000 },
 ] as const;
@@ -19,7 +19,7 @@ export function HomeProductShowcase() {
   const product = products[0];
 
   const [selectedWeightId, setSelectedWeightId] = useState<(typeof WEIGHT_OPTIONS)[number]['id']>(
-    '500gm'
+    '500g'
   );
   const [quantity, setQuantity] = useState(1);
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Leaf, Award, Heart, Truck, CreditCard, CheckCircle, Star, Quote } from 'lucide-react';
+import { ArrowRight, Leaf, Award, Heart, Truck, CreditCard, CheckCircle, Star, Quote, MessageCircle } from 'lucide-react';
 import { useApp } from '@/app/context/app-context';
 import { products } from '@/app/data/products';
 import bottle from '@/assets/bottle.png';
@@ -155,6 +155,16 @@ export function HomePage() {
 
       {/* Interactive product showcase section (detail-style) */}
       <HomeProductShowcase />
+
+      {/* Floating WhatsApp icon */}
+      <button
+        type="button"
+        onClick={() => window.open('https://wa.me/923287318269', '_blank')}
+        aria-label="Chat with us on WhatsApp"
+        className="fixed left-4 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-white shadow-xl hover:bg-green-600 transition-colors"
+      >
+        <MessageCircle className="h-6 w-6" />
+      </button>
     </div>
   );
 }

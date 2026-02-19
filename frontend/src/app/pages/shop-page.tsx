@@ -65,8 +65,14 @@ export function ShopPage() {
   };
 
   const filteredProducts = products.filter(product => {
-    if (selectedFilters.weights.length > 0 && !selectedFilters.weights.includes(product.weight)) {
-      return false;
+    if (selectedFilters.weights.length > 0) {
+      const normalizedProductWeight = product.weight.toLowerCase().trim();
+      const normalizedSelectedWeights = selectedFilters.weights.map(w =>
+        w.toLowerCase().trim()
+      );
+      if (!normalizedSelectedWeights.includes(normalizedProductWeight)) {
+        return false;
+      }
     }
     return true;
   });
@@ -238,10 +244,10 @@ export function ShopPage() {
             </aside>
 
             {/* Main Products Grid - 3 products in one row */}
-            <div className="lg:col-span-3">
+                  <div className="lg:col-span-3">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {filteredProducts.slice(0, 3).map((product) => (
-                  <div key={product.id} className="group bg-white rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-[#E6B65C]/20">
+                  <div key={product.id} className="group bg-white rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 border border-[#E6B65C]/20">
                     {/* Product Image */}
                     <div 
                       className="relative overflow-hidden bg-[#FAF7F2] p-6 cursor-pointer"
@@ -250,7 +256,7 @@ export function ShopPage() {
                       <img 
                         src={getImageForWeight(selectedWeight[product.id] || product.weight)} 
                         alt={product.name}
-                        className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-80 object-contain group-hover:scale-110 group-hover:translate-y-1 transition-transform duration-500 ease-out"
                       />
                       {product.tag && (
                         <div className="absolute top-4 left-4 px-3 py-1 bg-[#E6B65C] text-white text-xs rounded-full" style={{ fontFamily: 'Poppins, sans-serif' }}>
